@@ -1,4 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
+//http://localhost:3000/users
 @Controller('users')
-export class UsersController {}
+export class UsersController {
+  @Get('all')
+  getUsers() {
+    return 'You made a Get request to get aall users ';
+  }
+}
