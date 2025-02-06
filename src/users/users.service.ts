@@ -27,5 +27,6 @@ export class UsersService {
     isMarried: boolean;
   }) {
     this.users.push(user);
+    return this.users;
   }
 }
