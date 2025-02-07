@@ -1,13 +1,14 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 //http://localhost:3000/users
 @Controller('users')
 export class UsersController {
   @Get()
-  getUsers() {
+  getUsers(@Query() query: any) {
     const userService = new UsersService();
-    return userService.getAllUsers();
+    console.log(query);
+    return userService.getAllUsers().filter((x) => x.gender === query.gender);
   }
 
   @Get(':id')

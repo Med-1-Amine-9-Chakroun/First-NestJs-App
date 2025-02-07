@@ -6,8 +6,8 @@ export class UsersService {
     gender: string;
     isMarried: boolean;
   }[] = [
-    { id: 1, name: 'Jhon', age: 28, gender: 'male', isMarried: false },
-    { id: 2, name: 'Jhon', age: 28, gender: 'male', isMarried: false },
+    { id: 1, name: 'Jhon', age: 28, gender: 'female', isMarried: false },
+    { id: 2, name: 'Jhon', age: 28, gender: 'male', isMarried: true },
     { id: 3, name: 'Jhon', age: 28, gender: 'male', isMarried: false },
   ];
 
