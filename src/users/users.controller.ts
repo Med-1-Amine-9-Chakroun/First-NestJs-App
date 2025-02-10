@@ -26,8 +26,7 @@ export class UsersController {
 
   @Get(':id')
   getUserById(@Param('id', ParseIntPipe) id: number) {
-    const userServie = new UsersService();
-    return userServie.getUserById(Number(id));
+    return this.usersService.getUserById(Number(id));
   }
 
   @Post()
