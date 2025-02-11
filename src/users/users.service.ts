@@ -3,34 +3,46 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createUserDto } from './dtos/create-user.dto';
+import { Profile } from 'src/profile/profile.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Profile)
+    private readonly profileRepository: Repository<Profile>,
   ) {}
 
   getAllUsers() {
-    return this.userRepository.find();
+    return this.userRepository.find({
+      relations: {
+        profile: true,
+      },
+    });
   }
 
   getUserById() {}
 
   public async createUser(userDto: createUserDto) {
-    const user = await this.userRepository.findOne({
-      where: {
-        email: userDto.email,
-      },
-    });
+    userDto.profile = userDto.profile ?? {};
 
-    if (user) {
-      return 'Email used';
+    const user = this.userRepository.create(userDto);
+
+    return await this.userRepository.save(user);
+  }
+
+  public async deleteUser(id: number) {
+    let user = await this.userRepository.findOneBy({ id });
+
+    await this.userRepository.delete(id);
+
+    if (!user || !user.profile) {
+      throw new Error('User or Profile not found');
     }
-    let newUser = this.userRepository.create(userDto);
 
-    newUser = await this.userRepository.save(newUser);
+    await this.profileRepository.delete(user.profile.id);
 
-    return newUser;
+    return { delete: true };
   }
 }

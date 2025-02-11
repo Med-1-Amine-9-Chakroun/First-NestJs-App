@@ -1,8 +1,12 @@
+import { IsOptional } from 'class-validator';
+import { Profile } from 'src/profile/profile.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -34,6 +38,11 @@ export class User {
     length: 100,
   })
   password: string;
+
+  @IsOptional()
+  @OneToOne(() => Profile, (profile) => profile.user, {})
+  @JoinColumn()
+  profile?: Profile;
 
   @CreateDateColumn()
   createdAt: Date;

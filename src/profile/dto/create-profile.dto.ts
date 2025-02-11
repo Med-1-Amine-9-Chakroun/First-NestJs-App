@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateProdileDto {
+export class CreateProfileDto {
   @IsString({ message: 'firstname should be a string value ' })
   @MinLength(3, { message: 'message' })
   @IsOptional()
@@ -26,13 +26,13 @@ export class CreateProdileDto {
 
   @IsDate()
   @IsOptional()
-  dateOfBirth: Date;
+  dateOfBirth?: Date;
 
   @IsString({ message: 'bio should be a string value ' })
   @IsOptional()
-  bio: string;
+  bio?: string;
 
   @IsOptional()
   @IsString()
-  profileImage: string;
+  profileImage?: string;
 }
