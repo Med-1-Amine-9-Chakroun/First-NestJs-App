@@ -5,8 +5,9 @@ import { UsersModule } from './users/users.module';
 import { TweetModule } from './tweet/tweet.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
+
 import { ProfileModule } from './profile/profile.module';
+// import { Tweet } from './tweet/tweet.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { ProfileModule } from './profile/profile.module';
       inject: [],
       useFactory: () => ({
         type: 'postgres',
-        // entities: [User],
+        // entities: [Tweet],
         autoLoadEntities: true,
         synchronize: true,
         host: 'localhost',
