@@ -10,6 +10,7 @@ import {
 import { UsersService } from './users.service';
 
 import { updateUserDto } from './dtos/update-user.dto';
+import { createUserDto } from './dtos/create-user.dto';
 
 //http://localhost:3000/users
 @Controller('users')
@@ -25,13 +26,13 @@ export class UsersController {
 
   @Get(':id')
   getUserById(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.getUserById(Number(id));
+    return this.usersService.getUserById();
   }
 
   @Post()
-  createUser(@Body() user: updateUserDto) {
+  createUser(@Body() user: createUserDto) {
     console.log(user);
-    return 'created';
+    return this.usersService.createUser(user);
   }
 
   @Patch()

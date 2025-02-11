@@ -12,17 +12,13 @@ export class TweetService {
   ];
 
   getTweets(userId: number) {
-    const user = this.usersService.getUserById(userId);
     const tweet = this.tweets.filter((x) => x.userId === userId);
     // verify if user have undifined as value
-    if (!user) {
-      throw new Error(`User with ID ${userId} not found`);
-    }
+
     const response = tweet.map((t) => {
       return {
         text: t.text,
         date: t.date,
-        name: user.name,
       };
     });
     return response;

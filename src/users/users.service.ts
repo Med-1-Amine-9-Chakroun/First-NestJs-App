@@ -1,71 +1,36 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { AuthService } from 'src/auth/auth.service';
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { createUserDto } from './dtos/create-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject(forwardRef(() => AuthService))
-    private authService: AuthService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
-  users: {
-    id: number;
-    name: string;
-    email: string;
-    age: number;
-    gender: string;
-    isMarried: boolean;
-    pass: string;
-  }[] = [
-    {
-      id: 1,
-      name: 'Jhon',
-      email: 'jhon@doe.com',
-      age: 28,
-      gender: 'female',
-      isMarried: false,
-      pass: '123456',
-    },
-    {
-      id: 2,
-      name: 'Jhon',
-      email: 'jhon@doe.com',
-      age: 28,
-      gender: 'male',
-      isMarried: true,
-      pass: '123456',
-    },
-    {
-      id: 3,
-      name: 'Jhon',
-      email: 'jhon@doe.com',
-      age: 28,
-      gender: 'male',
-      isMarried: false,
-      pass: '123456',
-    },
-  ];
 
   getAllUsers() {
-    if (this.authService.isAuthenticated === true) {
-      return this.users;
+    return this.userRepository.find();
+  }
+
+  getUserById() {}
+
+  public async createUser(userDto: createUserDto) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: userDto.email,
+      },
+    });
+
+    if (user) {
+      return 'Email used';
     }
-    return 'you should be authenticated';
-  }
+    let newUser = this.userRepository.create(userDto);
 
-  getUserById(id: number) {
-    return this.users.find((x) => x.id === id);
-  }
+    newUser = await this.userRepository.save(newUser);
 
-  createUser(user: {
-    id: number;
-    name: string;
-    age: number;
-    email: string;
-    gender: string;
-    pass: string;
-    isMarried: boolean;
-  }) {
-    this.users.push(user);
-    return this.users;
+    return newUser;
   }
 }
