@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 
-import { updateUserDto } from './dtos/update-user.dto';
 import { createUserDto } from './dtos/create-user.dto';
 
 //http://localhost:3000/users
@@ -36,8 +35,7 @@ export class UsersController {
   }
 
   @Patch()
-  updateUser(@Body() user: updateUserDto) {
-    console.log(user);
+  updateUser() {
     return 'User updated succefully';
   }
 }
